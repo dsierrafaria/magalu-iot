@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitação de Acesso — Rede magalu_IOT</title>
+  <style>
+    :root {
+      --text-primary: #1D1D1F;
+      --text-secondary: #6E6E73;
+      --text-tertiary: #86868B;
+      --text-interactive: #0066CC;
+      --text-success: #008009;
+      --text-error: #E30000;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #FBFBFD;
+      --bg-tertiary: #F5F5F7;
+      --bg-success: #F6FFF6;
+      --border-secondary: #D2D2D7;
+      --border-tertiary: #E8E8ED;
+      --divider-tertiary: #E8E8ED;
+      --font-text: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+      --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 18px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-12: 48px;
+      --transition-fast: 150ms ease-out;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text-primary: #F5F5F7;
+        --text-secondary: #86868B;
+        --text-tertiary: #6E6E73;
+        --text-interactive: #2997FF;
+        --text-success: #03A10E;
+        --text-error: #FF3037;
+        --bg-primary: #000000;
+        --bg-secondary: #161617;
+        --bg-tertiary: #1D1D1F;
+        --bg-success: #002B03;
+        --border-secondary: #424245;
+        --border-tertiary: #333336;
+        --divider-tertiary: #333336;
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-text);
+      font-size: 17px;
+      line-height: 1.5;
+      letter-spacing: -0.024em;
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--divider-tertiary);
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .header-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .header-separator {
+      color: var(--text-tertiary);
+      font-size: 14px;
+    }
+
+    .header-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* ── Main layout ── */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-12) var(--space-4);
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-tertiary);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      width: 100%;
+      max-width: 520px;
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ── Network badge ── */
+    .network-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-tertiary);
+      border-radius: 100px;
+      padding: 5px 12px;
+      margin-bottom: var(--space-6);
+    }
+
+    .network-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34C759;
+      flex-shrink: 0;
+    }
+
+    .network-badge-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Card header ── */
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-lg);
+      background: var(--text-interactive);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-5);
+    }
+
+    .card-icon svg {
+      width: 28px;
+      height: 28px;
+      color: #fff;
+    }
+
+    .card-heading {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: var(--space-2);
+    }
+
+    .card-description {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: var(--space-6);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--divider-tertiary);
+      margin: var(--space-6) 0;
+    }
+
+    /* ── Form ── */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      font-family: var(--font-text);
+      font-size: 15px;
+      line-height: 1.5;
+      padding: 10px 12px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      resize: vertical;
+      width: 100%;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--text-interactive);
+      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.12);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .form-group input:focus,
+      .form-group textarea:focus {
+        box-shadow: 0 0 0 3px rgba(41, 151, 255, 0.18);
+      }
+    }
+
+    .helper-text {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* ── Preview box ── */
+    .preview-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-tertiary);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .preview-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-3);
+    }
+
+    .preview-body {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      white-space: pre-wrap;
+      font-family: var(--font-text);
+    }
+
+    .preview-highlight {
+      color: var(--text-interactive);
+      font-weight: 500;
+    }
+
+    .preview-recipients {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--divider-tertiary);
+    }
+
+    .recipient-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-tertiary);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .recipient-chip svg {
+      width: 12px;
+      height: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* ── Button ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-text);
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      min-height: 44px;
+      width: 100%;
+      margin-top: var(--space-6);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--text-interactive);
+      outline-offset: 2px;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--text-interactive);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      filter: brightness(0.96);
+      transform: scale(0.99);
+    }
+
+    .btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* ── Success state ── */
+    .success-banner {
+      display: none;
+      align-items: center;
+      gap: var(--space-3);
+      background: var(--bg-success);
+      border: 1px solid rgba(0, 128, 9, 0.2);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      margin-top: var(--space-4);
+      font-size: 14px;
+      color: var(--text-success);
+    }
+
+    .success-banner.show {
+      display: flex;
+    }
+
+    .success-banner svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: var(--space-6);
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <span class="header-title">Liberação de Rede</span>
+    <span class="header-separator">·</span>
+    <span class="header-subtitle">magalu_IOT</span>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="card">
+
+      <!-- Badge -->
+      <div class="network-badge">
+        <span class="network-badge-dot"></span>
+        <span class="network-badge-text">Rede Wi-Fi · magalu_IOT</span>
+      </div>
+
+      <!-- Icon + heading -->
+      <div class="card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1.5 8.5C5.5 4.5 10 3 12 3s6.5 1.5 10.5 5.5"/>
+          <path d="M5 12c1.9-1.9 4.3-3 7-3s5.1 1.1 7 3"/>
+          <path d="M8.5 15.5C9.8 14.2 10.8 13.5 12 13.5s2.2.7 3.5 2"/>
+          <circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+
+      <h1 class="card-heading">Solicitar acesso à rede</h1>
+      <p class="card-description">
+        Preencha os campos abaixo para solicitar a liberação do endereço Wi-Fi dos iPhones Apple na rede <strong>magalu_IOT</strong> da sua filial.
+      </p>
+
+      <div class="divider"></div>
+
+      <!-- Form -->
+      <form id="requestForm" onsubmit="handleSubmit(event)">
+
+        <div class="form-group">
+          <label for="filial">Número da filial</label>
+          <input
+            type="text"
+            id="filial"
+            name="filial"
+            placeholder="Ex: 1234"
+            autocomplete="off"
+            required
+            oninput="updatePreview()"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="enderecos">Endereços Wi-Fi (MAC addresses)</label>
+          <textarea
+            id="enderecos"
+            name="enderecos"
+            rows="4"
+            placeholder="Cole aqui os endereços Wi-Fi dos iPhones, um por linha."
+            required
+            oninput="updatePreview()"
+          ></textarea>
+          <span class="helper-text">Informe todos os endereços Wi-Fi que precisam de liberação.</span>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-box">
+          <p class="preview-label">Pré-visualização do e-mail</p>
+          <div class="preview-body" id="emailPreview">Olá, tudo bem?
+
+Segue abaixo os endereços Wi-Fi dos iPhones para a liberação referente a filial: <span class="preview-highlight" id="prevFilial">—</span>.
+
+
+<span id="prevEnderecos" class="preview-highlight">—</span>
+
+
+Att.</div>
+
+          <div class="preview-recipients">
+            <span class="recipient-chip">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 4l6 4 6-4M2 4h12v9H2z"/>
+              </svg>
+              thalita_ferreira@apple.com
+            </span>
+            <span class="recipient-chip">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 4l6 4 6-4M2 4h12v9H2z"/>
+              </svg>
+              ops.concetividade@luizalabs.com
+            </span>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 2L11 13"/>
+            <path d="M22 2L15 22 11 13 2 9l20-7z"/>
+          </svg>
+          Enviar solicitação por e-mail
+        </button>
+
+        <!-- Success banner -->
+        <div class="success-banner" id="successBanner" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <span>E-mail aberto no seu cliente de e-mail. Revise e envie!</span>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Apple Brasil · Canal iPhone Magalu · Uso interno
+  </footer>
+
+  <script>
+    function updatePreview() {
+      const filial = document.getElementById('filial').value.trim();
+      const enderecos = document.getElementById('enderecos').value.trim();
+
+      document.getElementById('prevFilial').textContent = filial || '—';
+      document.getElementById('prevEnderecos').textContent = enderecos || '—';
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      const filial    = document.getElementById('filial').value.trim();
+      const enderecos = document.getElementById('enderecos').value.trim();
+
+      const to      = 'thalita_ferreira@apple.com,ops.concetividade@luizalabs.com';
+      const subject = encodeURIComponent(`Liberação Wi-Fi magalu_IOT — Filial ${filial}`);
+      const body    = encodeURIComponent(
+        `Olá, tudo bem?\n\nSegue abaixo os endereços Wi-Fi dos iPhones para a liberação referente a filial: ${filial}.\n\n\n${enderecos}\n\n\nAtt.`
+      );
+
+      const mailto = `mailto:${to}?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+
+      // Show success banner
+      const banner = document.getElementById('successBanner');
+      banner.classList.add('show');
+
+      // Scroll banner into view smoothly
+      banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+
+</body>
+</html>
